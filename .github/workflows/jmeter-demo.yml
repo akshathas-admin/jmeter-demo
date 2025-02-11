@@ -28,12 +28,9 @@ jobs:
     - name: Download and Install BlazeMeter Parallel Controller Plugin
       run: |
         export JMETER_HOME=/opt/jmeter
-
-        # Download the BlazeMeter Parallel Controller plugin ZIP file
-        wget https://jmeter-plugins.org/files/packages/bzm-parallel-0.12.zip -P /tmp/
-
-        # Unzip the plugin into JMeter's lib/ext directory
-        sudo unzip /tmp/bzm-parallel-0.12.zip -d $JMETER_HOME/lib/ext/
+        curl -O http://search.maven.org/remotecontent?filepath=kg/apc/jmeter-plugins-manager/1.10/jmeter-plugins-manager-1.10.jar
+        curl -O http://search.maven.org/remotecontent?filepath=kg/apc/cmdrunner/2.0/cmdrunner-2.0.jar
+        java -cp /opt/jmeter/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller install bzm-parallel-controller
         echo "BlazeMeter Parallel Controller plugin installed successfully!"
          
     - name: Run JMeter Load Test
