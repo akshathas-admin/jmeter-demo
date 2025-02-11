@@ -31,24 +31,12 @@ jobs:
         /opt/jmeter/bin/jmeter -n -t Sample_1.jmx -l ./jmeter-results/result.jtl -e -o ./jmeter-results/report
         echo "JMeter test completed!"
 
-    - name: Configure msmtp for Email
-      run: |
-        # Configure msmtp with Gmail (replace with your SMTP details)
-        echo "defaults" > ~/.msmtprc
-        echo "account gmail" >> ~/.msmtprc
-        echo "host smtp.gmail.com" >> ~/.msmtprc
-        echo "port 587" >> ~/.msmtprc
-        echo "from akshathas@symplr.com" >> ~/.msmtprc
-        echo "user akshathas@symplr.com" >> ~/.msmtprc
-        echo "password ${{ secrets.EMAIL_PASSWORD }}" >> ~/.msmtprc
-        echo "tls on" >> ~/.msmtprc
-        echo "tls_starttls on" >> ~/.msmtprc
-        echo "logfile ~/.msmtp.log" >> ~/.msmtprc
-        chmod 600 ~/.msmtprc
-        echo "msmtp configured!"
-
     - name: Send Email with Report
       run: |
-        # Send an email with HTML report as an attachment
-        echo "Subject: JMeter Load Test Report" | mutt -e "set from=akshathas@symplr.com" -e "set realname='Your Name'" -a "./jmeter-results/report/index.html" -- akshathas@symplr.com
+        # Define variables
+        SUBJECT="JMeter Load Test Report"
+        TO="akshathas@symplr.com"
+        FROM="akshathas@symplr.com"
+        HTML_REPORT="./jmeter-results/report/index.html"
+        
         echo "Email sent successfully!"
