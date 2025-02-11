@@ -16,14 +16,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Install JMeter, msmtp, and mutt
+    - name: Install JMeter
       run: |
         sudo apt-get update
-        sudo apt-get install -y openjdk-11-jre unzip msmtp mutt
+        sudo apt-get install -y openjdk-11-jre unzip msmtp
         wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.tgz
         tar -xvzf apache-jmeter-5.6.3.tgz
         sudo mv apache-jmeter-5.6.3 /opt/jmeter
-        echo "JMeter, msmtp, and mutt installed!"
+        echo "JMeter installed!"
 
     - name: Run JMeter Load Test
       run: |
@@ -35,8 +35,27 @@ jobs:
       run: |
         # Define variables
         SUBJECT="JMeter Load Test Report"
-        TO="akshathas@symplr.com"
-        FROM="akshathas@symplr.com"
+        TO="recepient@gmail.com"
+        FROM="your@gmail.com"
         HTML_REPORT="./jmeter-results/report/index.html"
         
+        # Configure msmtp
+        echo "account default" > ~/.msmtprc
+        echo "host smtp.gmail.com" >> ~/.msmtprc
+        echo "port 587" >> ~/.msmtprc
+        echo "from $FROM" >> ~/.msmtprc
+        echo "auth on" >> ~/.msmtprc
+        echo "user $FROM" >> ~/.msmtprc
+        echo "password $GMAIL_PASSWORD" >> ~/.msmtprc
+        echo "tls on" >> ~/.msmtprc
+        echo "tls_starttls on" >> ~/.msmtprc
+        echo "logfile ~/.msmtp.log" >> ~/.msmtprc
+
+        # Send the email using msmtp
+        echo -e "Subject: $SUBJECT\nFrom: $FROM\nTo: $TO\nContent-Type: text/html; charset=UTF-8\n\n\
+        <h1>JMeter Load Test Completed</h1>\n\
+        <p>Please find the test results below:</p>\n\
+        <a href='https://github.com/yourusername/yourrepository/actions/runs/${{ github.run_id }}'>View full report</a>" | \
+        msmtp --attachment=$HTML_REPORT $TO
+
         echo "Email sent successfully!"
