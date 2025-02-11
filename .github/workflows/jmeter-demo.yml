@@ -45,3 +45,8 @@ jobs:
       run: |
         cat ./jmeter-results/result.jtl
        
+    - name: Send Webhook Notification
+      run: |
+        curl -X POST https://your-webhook-url.com/notify \
+          -H "Content-Type: application/json" \
+          -d '{"email": "akshathas@symplr.com", "report_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}}"}'
