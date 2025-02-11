@@ -27,12 +27,8 @@ jobs:
 
     - name: Download and Install BlazeMeter Parallel Controller Plugin
       run: |
-        export JMETER_HOME=/opt/jmeter
-        curl -O http://search.maven.org/remotecontent?filepath=kg/apc/cmdrunner/2.0/cmdrunner-2.0.jar
-        curl -O http://search.maven.org/remotecontent?filepath=kg/apc/jmeter-plugins-manager/1.10/jmeter-plugins-manager-1.10.jar
-        
-        java -cp /opt/jmeter/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller install bzm-parallel-controller
-        echo "BlazeMeter Parallel Controller plugin installed successfully!"
+        wget https://jmeter-plugins.org/downloads/all/jmeter-plugins-manager-1.0.3.jar -P /opt/jmeter/lib/ext/
+        echo "JMeter Plugins Manager installed!"
          
     - name: Run JMeter Load Test
       run: |
@@ -42,7 +38,7 @@ jobs:
         # Create the jmeter-results folder
         # mkdir -p jmeter-results
         # Run the JMeter test and save the result.jtl and report inside jmeter-results
-        /opt/jmeter/bin/jmeter -n -t sDir_TestScript_Git.jmx -l ./jmeter-results/result.jtl -e -o ./jmeter-results/report
+        /opt/jmeter/bin/jmeter -n -t Sample_1.jmx -l ./jmeter-results/result.jtl -e -o ./jmeter-results/report
 
     - name: Upload JMeter Report
       uses: actions/upload-artifact@v4
