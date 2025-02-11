@@ -27,17 +27,20 @@ jobs:
 
     - name: Run JMeter Load Test
       run: |
+        # Create the jmeter-results folder in the current directory (repo root)
+        mkdir -p ./jmeter-results
+        
         # Create the jmeter-results folder
-        mkdir -p jmeter-results
+        # mkdir -p jmeter-results
         # Run the JMeter test and save the result.jtl and report inside jmeter-results
-        /opt/jmeter/bin/jmeter -n -t Sample.jmx -l https://github.com/akshathas-admin/jmeter-demo/tree/414ea2d1e011a1020d56cd02e71aaea5b99b1262/jmeter-results/result.jtl -e -o https://github.com/akshathas-admin/jmeter-demo/tree/414ea2d1e011a1020d56cd02e71aaea5b99b1262/jmeter-results/report
+        /opt/jmeter/bin/jmeter -n -t Sample.jmx -l /jmeter-demo/jmeter-results/result.jtl -e -o /jmeter-demo/jmeter-results/report
 
     - name: Upload JMeter Report
       uses: actions/upload-artifact@v4
       with:
         name: jmeter-report
-        path: https://github.com/akshathas-admin/jmeter-demo/tree/414ea2d1e011a1020d56cd02e71aaea5b99b1262/jmeter-results/report
+        path: jmeter-demo/jmeter-results/report
 
     - name: View JMeter Test Results
       run: |
-        cat https://github.com/akshathas-admin/jmeter-demo/tree/414ea2d1e011a1020d56cd02e71aaea5b99b1262/jmeter-results/result.jtl
+        cat /jmeter-demo/jmeter-results/result.jtl
