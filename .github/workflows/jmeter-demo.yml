@@ -24,14 +24,22 @@ jobs:
         tar -xvzf apache-jmeter-5.6.3.tgz
         sudo mv apache-jmeter-5.6.3 /opt/jmeter
         echo "JMeter installed!"
+    - name: Install JMeter Plugin
+      run: |
+        # Download the JMeter plugin for JMeter
+        wget https://repo1.maven.org/maven2/kg/apc/jmeter-plugins-manager/1.10/jmeter-plugins-manager-1.10.jar
+        sudo mv jmeter-plugins-manager-1.10.jar /opt/jmeter/lib/ext/
+        echo "JMeter Plugins Manager installed!"
 
     - name: Install BlazeMeter Plugin
       run: |
-        # Download the BlazeMeter plugin for JMeter
-        wget https://github.com/Blazemeter/taurus/releases/download/v1.0.0/taurus-jmeter-plugin-1.0.0.zip
-        unzip taurus-jmeter-plugin-1.0.0.zip -d /opt/jmeter/lib/ext/
+        # Define JMeter Home
+        export JMETER_HOME=/opt/jmeter
+        
+        # Install BlazeMeter Plugin (which includes the Parallel Controller)
+        java -cp $JMETER_HOME/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller install bzm-parallel-controller
         echo "BlazeMeter plugin installed!"
-    
+
     - name: Run JMeter Load Test
       run: |
         # Create the jmeter-results folder in the current directory (repo root)
