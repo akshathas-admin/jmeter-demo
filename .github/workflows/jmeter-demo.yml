@@ -27,33 +27,33 @@ jobs:
 
     - name: Install JMeter Plugins Manager
       run: |
-        # Define JMeter Home
         export JMETER_HOME=/opt/jmeter
 
-        # Download and install JMeter Plugins Manager
+        # Install the necessary dependencies for the Plugin Manager
         wget -L https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.0/cmdrunner-2.0.jar -P $JMETER_HOME/lib/
         wget -L https://repo1.maven.org/maven2/kg/apc/jmeter-plugins-manager/1.10/jmeter-plugins-manager-1.10.jar -P $JMETER_HOME/lib/ext/
         echo "JMeter Plugins Manager installed!"
 
     - name: Install BlazeMeter Plugin (Parallel Controller)
       run: |
-        # Define JMeter Home
         export JMETER_HOME=/opt/jmeter
 
-        # Check if the Plugin Manager and necessary dependencies are installed
+        # Ensure the Plugin Manager is available
         if [ ! -f $JMETER_HOME/lib/ext/jmeter-plugins-manager-1.10.jar ]; then
-          echo "Plugin Manager is not installed!"
+          echo "Plugin Manager not installed!"
           exit 1
         fi
-        
-        # Install the BlazeMeter Parallel Controller plugin
-        echo "Installing BlazeMeter Parallel Controller..."
+
+        # Install BlazeMeter Parallel Controller plugin
+        echo "Installing BlazeMeter Parallel Controller plugin..."
         java -cp $JMETER_HOME/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller install bzm-parallel-controller
         echo "BlazeMeter Parallel Controller plugin installed successfully!"
 
+        # List contents of JMeter lib/ext to verify plugin files are present
+        ls $JMETER_HOME/lib/ext/
+
     - name: Verify JMeter Test Script
       run: |
-        # Ensure the JMeter test script exists in the repository
         if [ ! -f sDir_TestScript_Git.jmx ]; then
           echo "JMeter test script not found!"
           exit 1
@@ -61,6 +61,14 @@ jobs:
 
     - name: Run JMeter Load Test
       run: |
+        # Verify JMeter is running with the correct environment
+        echo "Verifying JMeter setup..."
+        /opt/jmeter/bin/jmeter -v
+
+        # Ensure the plugin files are in the lib/ext directory
+        ls /opt/jmeter/lib/ext/
+
+        # Run the test script
         mkdir -p ./jmeter-results
         /opt/jmeter/bin/jmeter -n -t sDir_TestScript_Git.jmx -l ./jmeter-results/result.jtl -e -o ./jmeter-results/report
 
