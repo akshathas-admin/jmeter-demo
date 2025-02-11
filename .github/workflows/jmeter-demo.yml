@@ -31,15 +31,6 @@ jobs:
         sudo mv jmeter-plugins-manager-1.10.jar /opt/jmeter/lib/ext/
         echo "JMeter Plugins Manager installed!"
 
-    - name: Install BlazeMeter Plugin
-      run: |
-        # Define JMeter Home
-        export JMETER_HOME=/opt/jmeter
-        
-        # Install BlazeMeter Plugin (which includes the Parallel Controller)
-        java -cp $JMETER_HOME/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller install bzm-parallel-controller
-        echo "BlazeMeter plugin installed!"
-
     - name: Run JMeter Load Test
       run: |
         # Create the jmeter-results folder in the current directory (repo root)
