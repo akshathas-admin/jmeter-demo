@@ -28,20 +28,5 @@ jobs:
     - name: Run JMeter Load Test
       run: |
         mkdir -p ./jmeter-results
-        /opt/jmeter/bin/jmeter -n -t Sample_1.jmx -l ./jmeter-results/result.jtl -e -o ./jmeter-results/report
+        /opt/jmeter/bin/jmeter -n -t sDir_TestScript_Git.jmx -l ./jmeter-results/result.jtl -e -o ./jmeter-results/report
         echo "JMeter test completed!"
-
-    - name: Send Email with Report (using sendmail)
-      run: |
-        SUBJECT="JMeter Load Test Report"
-        TO="akshathas@symplr.com"
-        FROM="akshathas@symplr.com"
-        HTML_REPORT="./jmeter-results/report/index.html"
-
-        echo "Subject: $SUBJECT\nFrom: $FROM\nTo: $TO\nContent-Type: text/html; charset=UTF-8\n\n\
-        <h1>JMeter Load Test Completed</h1>\n\
-        <p>Please find the test results below:</p>\n\
-        <a href='https://github.com/yourusername/yourrepository/actions/runs/${{ github.run_id }}'>View full report</a>" | \
-        sendmail -a "$HTML_REPORT" "$TO"
-
-        echo "Email sent successfully!"
