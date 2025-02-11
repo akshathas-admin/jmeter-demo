@@ -19,34 +19,39 @@ jobs:
     - name: Install JMeter
       run: |
         sudo apt-get update
-        sudo apt-get install -y openjdk-11-jre unzip
+        sudo apt-get install -y openjdk-11-jre unzip msmtp
         wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.tgz
         tar -xvzf apache-jmeter-5.6.3.tgz
         sudo mv apache-jmeter-5.6.3 /opt/jmeter
         echo "JMeter installed!"
-         
+
     - name: Run JMeter Load Test
       run: |
-        # Create the jmeter-results folder in the current directory (repo root)
         mkdir -p ./jmeter-results
-        
-        # Create the jmeter-results folder
-        # mkdir -p jmeter-results
-        # Run the JMeter test and save the result.jtl and report inside jmeter-results
-        /opt/jmeter/bin/jmeter -n -t Sample_1.jmx -l ./jmeter-results/result.jtl -e -o ./jmeter-results/report
+        /opt/jmeter/bin/jmeter -n -t sDir_TestScript_Git.jmx -l ./jmeter-results/result.jtl -e -o ./jmeter-results/report
+        echo "JMeter test completed!"
 
-    - name: Upload JMeter Report
-      uses: actions/upload-artifact@v4
-      with:
-        name: jmeter-report
-        path: ./jmeter-results/report
+    - name: Configure msmtp for Email
+      run: |
+        # Configure msmtp with Gmail (replace with your SMTP details)
+        echo "defaults" > ~/.msmtprc
+        echo "account gmail" >> ~/.msmtprc
+        echo "host smtp.gmail.com" >> ~/.msmtprc
+        echo "port 587" >> ~/.msmtprc
+        echo "from akshathas@symplr.com" >> ~/.msmtprc
+        echo "user akshathas@symplr.com" >> ~/.msmtprc
+        echo "password ${{ secrets.EMAIL_PASSWORD }}" >> ~/.msmtprc
+        echo "tls on" >> ~/.msmtprc
+        echo "tls_starttls on" >> ~/.msmtprc
+        echo "logfile ~/.msmtp.log" >> ~/.msmtprc
+        chmod 600 ~/.msmtprc
+        echo "msmtp configured!"
 
-    - name: View JMeter Test Results
+    - name: Send Email with Report
       run: |
-        cat ./jmeter-results/result.jtl
-       
-    - name: Send Webhook Notification
-      run: |
-        curl -X POST https://your-webhook-url.com/notify \
-          -H "Content-Type: application/json" \
-          -d '{"email": "akshathas@symplr.com", "report_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}}"}'
+        # Send an email with the HTML report as an attachment
+        echo -e "Subject:JMeter Load Test Report\nContent-Type: text/html\n\n\
+        <h1>JMeter Load Test Completed</h1>\
+        <p>Please find the test results below:</p>\
+        <a href='https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'>View full report</a>" | msmtp --attachment="./jmeter-results/report/index.html" akshathas@symplr.com
+        echo "Email sent successfully!"
