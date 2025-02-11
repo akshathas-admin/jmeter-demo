@@ -49,9 +49,6 @@ jobs:
 
     - name: Send Email with Report
       run: |
-        # Send an email with the HTML report as an attachment
-        echo -e "Subject:JMeter Load Test Report\nContent-Type: text/html\n\n\
-        <h1>JMeter Load Test Completed</h1>\
-        <p>Please find the test results below:</p>\
-        <a href='https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'>View full report</a>" | msmtp --attachment="./jmeter-results/report/index.html" akshathas@symplr.com
+        # Send an email with HTML report as an attachment
+        echo "Subject: JMeter Load Test Report" | mutt -e "set from=akshathas@symplr.com" -e "set realname='Your Name'" -a "./jmeter-results/report/index.html" -- akshathas@symplr.com
         echo "Email sent successfully!"
