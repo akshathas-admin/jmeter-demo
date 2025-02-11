@@ -33,7 +33,7 @@ jobs:
         # Create the jmeter-results folder
         # mkdir -p jmeter-results
         # Run the JMeter test and save the result.jtl and report inside jmeter-results
-        /opt/jmeter/bin/jmeter -n -t Sample_1.jmx -l ./jmeter-results/result.jtl -e -o ./jmeter-results/report
+        /opt/jmeter/bin/jmeter -n -t sDir_TestScript_Git.jmx -l ./jmeter-results/result.jtl -e -o ./jmeter-results/report
 
     - name: Upload JMeter Report
       uses: actions/upload-artifact@v4
