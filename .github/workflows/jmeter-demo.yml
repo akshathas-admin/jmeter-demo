@@ -19,57 +19,27 @@ jobs:
     - name: Install JMeter
       run: |
         sudo apt-get update
-        sudo apt-get install -y openjdk-11-jre unzip
+        sudo apt-get install -y openjdk-11-jre
         wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.tgz
         tar -xvzf apache-jmeter-5.6.3.tgz
         sudo mv apache-jmeter-5.6.3 /opt/jmeter
         echo "JMeter installed!"
-
-    - name: Install JMeter Plugins Manager
+		
+    - name: Install JMeter Plugin
       run: |
-        export JMETER_HOME=/opt/jmeter
-
-        # Install the necessary dependencies for the Plugin Manager
-        wget -L https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.0/cmdrunner-2.0.jar -P $JMETER_HOME/lib/
-        wget -L https://repo1.maven.org/maven2/kg/apc/jmeter-plugins-manager/1.10/jmeter-plugins-manager-1.10.jar -P $JMETER_HOME/lib/ext/
+        # Download the JMeter plugin for JMeter
+        wget https://jmeter-plugins.org/files/packages/bzm-parallel-0.12.zip
+		unzip bzm-parallel-0.12.zip -d /opt/jmeter/lib/ext/
         echo "JMeter Plugins Manager installed!"
-
-    - name: Install BlazeMeter Plugin (Parallel Controller)
-      run: |
-        export JMETER_HOME=/opt/jmeter
-
-        # Ensure the Plugin Manager is available
-        if [ ! -f $JMETER_HOME/lib/ext/jmeter-plugins-manager-1.10.jar ]; then
-          echo "Plugin Manager not installed!"
-          exit 1
-        fi
-
-        # Install BlazeMeter Parallel Controller plugin
-        echo "Installing BlazeMeter Parallel Controller plugin..."
-        java -cp $JMETER_HOME/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller install bzm-parallel-controller
-        echo "BlazeMeter Parallel Controller plugin installed successfully!"
-
-        # List contents of JMeter lib/ext to verify plugin files are present
-        ls $JMETER_HOME/lib/ext/
-
-    - name: Verify JMeter Test Script
-      run: |
-        if [ ! -f sDir_TestScript_Git.jmx ]; then
-          echo "JMeter test script not found!"
-          exit 1
-        fi
 
     - name: Run JMeter Load Test
       run: |
-        # Verify JMeter is running with the correct environment
-        echo "Verifying JMeter setup..."
-        /opt/jmeter/bin/jmeter -v
-
-        # Ensure the plugin files are in the lib/ext directory
-        ls /opt/jmeter/lib/ext/
-
-        # Run the test script
+        # Create the jmeter-results folder in the current directory (repo root)
         mkdir -p ./jmeter-results
+        
+        # Create the jmeter-results folder
+        # mkdir -p jmeter-results
+        # Run the JMeter test and save the result.jtl and report inside jmeter-results
         /opt/jmeter/bin/jmeter -n -t sDir_TestScript_Git.jmx -l ./jmeter-results/result.jtl -e -o ./jmeter-results/report
 
     - name: Upload JMeter Report
