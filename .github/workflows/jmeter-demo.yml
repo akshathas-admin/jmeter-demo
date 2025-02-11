@@ -35,28 +35,15 @@ jobs:
         # Unzip the plugin into JMeter's lib/ext directory
         sudo unzip /tmp/bzm-parallel-0.12.zip -d $JMETER_HOME/lib/ext/
         echo "BlazeMeter Parallel Controller plugin installed successfully!"
-
-        # List the contents of the lib/ext folder to confirm installation
-        ls $JMETER_HOME/lib/ext/
-
-    - name: Verify JMeter Test Script
-      run: |
-        if [ ! -f sDir_TestScript_Git.jmx ]; then
-          echo "JMeter test script not found!"
-          exit 1
-        fi
-
+         
     - name: Run JMeter Load Test
       run: |
-        # Verify JMeter is running with the correct environment
-        echo "Verifying JMeter setup..."
-        /opt/jmeter/bin/jmeter -v
-
-        # Ensure the plugin files are in the lib/ext directory
-        ls /opt/jmeter/lib/ext/
-
-        # Run the test script
+        # Create the jmeter-results folder in the current directory (repo root)
         mkdir -p ./jmeter-results
+        
+        # Create the jmeter-results folder
+        # mkdir -p jmeter-results
+        # Run the JMeter test and save the result.jtl and report inside jmeter-results
         /opt/jmeter/bin/jmeter -n -t sDir_TestScript_Git.jmx -l ./jmeter-results/result.jtl -e -o ./jmeter-results/report
 
     - name: Upload JMeter Report
@@ -68,3 +55,4 @@ jobs:
     - name: View JMeter Test Results
       run: |
         cat ./jmeter-results/result.jtl
+       
