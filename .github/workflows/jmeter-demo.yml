@@ -1,0 +1,40 @@
+name: Load Test Pipeline with JMeter
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  load-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install JMeter
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y openjdk-11-jre
+        wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.4.3.tgz
+        tar -xvzf apache-jmeter-5.6.3.tgz
+        sudo mv apache-jmeter-5.6.3 /opt/jmeter
+        echo "JMeter installed!"
+
+    - name: Run JMeter Load Test
+      run: |
+        /opt/jmeter/bin/jmeter -n -t Sample.jmx -l result.jtl -e -o ./report
+
+    - name: Upload JMeter Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: jmeter-report
+        path: ./report
+
+    - name: View JMeter Test Results
+      run: |
+        cat result.jtl
