@@ -24,11 +24,6 @@ jobs:
         tar -xvzf apache-jmeter-5.6.3.tgz
         sudo mv apache-jmeter-5.6.3 /opt/jmeter
         echo "JMeter installed!"
-
-    - name: Download and Install BlazeMeter Parallel Controller Plugin
-      run: |
-        wget https://jmeter-plugins.org/downloads/all/jmeter-plugins-manager-1.0.3.jar -P /opt/jmeter/lib/ext/
-        echo "JMeter Plugins Manager installed!"
          
     - name: Run JMeter Load Test
       run: |
