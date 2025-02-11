@@ -31,7 +31,7 @@ jobs:
         /opt/jmeter/bin/jmeter -n -t Sample_1.jmx -l ./jmeter-results/result.jtl -e -o ./jmeter-results/report
         echo "JMeter test completed!"
 
-	- name: Send Email with Report (using sendmail)
+    - name: Send Email with Report (using sendmail)
       run: |
         SUBJECT="JMeter Load Test Report"
         TO="akshathas@symplr.com"
