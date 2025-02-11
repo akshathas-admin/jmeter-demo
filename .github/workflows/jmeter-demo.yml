@@ -28,7 +28,7 @@ jobs:
     - name: Run JMeter Load Test
       run: |
         mkdir -p ./jmeter-results
-        /opt/jmeter/bin/jmeter -n -t sDir_TestScript_Git.jmx -l ./jmeter-results/result.jtl -e -o ./jmeter-results/report
+        /opt/jmeter/bin/jmeter -n -t Sample_1.jmx -l ./jmeter-results/result.jtl -e -o ./jmeter-results/report
         echo "JMeter test completed!"
 
     - name: Configure msmtp for Email
