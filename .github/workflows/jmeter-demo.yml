@@ -16,17 +16,16 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Install JMeter
+    - name: Install JMeter, msmtp, and mutt
       run: |
         sudo apt-get update
-        sudo apt-get install -y openjdk-11-jre
+        sudo apt-get install -y openjdk-11-jre unzip msmtp mutt
         wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.tgz
         tar -xvzf apache-jmeter-5.6.3.tgz
         sudo mv apache-jmeter-5.6.3 /opt/jmeter
-        echo "JMeter installed!"
-
+        echo "JMeter, msmtp, and mutt installed!"
     - name: Run JMeter Load Test
       run: |
         mkdir -p ./jmeter-results
-        /opt/jmeter/bin/jmeter -n -t sDir_TestScript_Git.jmx -l ./jmeter-results/result.jtl -e -o ./jmeter-results/report
+        /opt/jmeter/bin/jmeter -n -t Sample_1.jmx -l ./jmeter-results/result.jtl -e -o ./jmeter-results/report
         echo "JMeter test completed!"
