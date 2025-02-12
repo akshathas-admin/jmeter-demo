@@ -5,8 +5,6 @@
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
         <collectionProp name="Arguments.arguments"/>
       </elementProp>
-      <boolProp name="TestPlan.functional_mode">false</boolProp>
-      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
     </TestPlan>
     <hashTree>
       <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
@@ -51,7 +49,7 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
           <collectionProp name="HeaderManager.headers">
             <elementProp name="" elementType="Header">
               <stringProp name="Header.name">C_BearerAuth</stringProp>
@@ -72,13 +70,12 @@ log.info(&quot;script attempting to login with: &quot; + vars.get(&quot;prm_gene
           <stringProp name="scriptLanguage">groovy</stringProp>
         </JSR223Sampler>
         <hashTree/>
-        <com.blazemeter.jmeter.controller.ParallelSampler guiclass="com.blazemeter.jmeter.controller.ParallelControllerGui" testclass="com.blazemeter.jmeter.controller.ParallelSampler" testname="TC01_FindLocation_01_Launch" enabled="true">
-          <intProp name="MAX_THREAD_NUMBER">6</intProp>
-          <boolProp name="PARENT_SAMPLE">true</boolProp>
-          <boolProp name="LIMIT_MAX_THREAD_NUMBER">true</boolProp>
-        </com.blazemeter.jmeter.controller.ParallelSampler>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="TC01_FindLocation_01_Launch">
+          <boolProp name="TransactionController.parent">true</boolProp>
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+        </TransactionController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/Account/Login-8" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/Account/Login-8">
             <stringProp name="HTTPSampler.domain">go.tst-phynd.com</stringProp>
             <stringProp name="HTTPSampler.port">443</stringProp>
             <stringProp name="HTTPSampler.protocol">https</stringProp>
@@ -197,19 +194,18 @@ log.info(&quot;script attempting to login with: &quot; + vars.get(&quot;prm_gene
             <hashTree/>
           </hashTree>
         </hashTree>
-        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Thinktime" enabled="true">
+        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Thinktime">
           <intProp name="ActionProcessor.action">1</intProp>
           <intProp name="ActionProcessor.target">0</intProp>
           <stringProp name="ActionProcessor.duration">${thinktime}</stringProp>
         </TestAction>
         <hashTree/>
-        <com.blazemeter.jmeter.controller.ParallelSampler guiclass="com.blazemeter.jmeter.controller.ParallelControllerGui" testclass="com.blazemeter.jmeter.controller.ParallelSampler" testname="TC01_FindLocation_02_EnterUserName_ClickNext" enabled="true">
-          <intProp name="MAX_THREAD_NUMBER">6</intProp>
-          <boolProp name="PARENT_SAMPLE">true</boolProp>
-          <boolProp name="LIMIT_MAX_THREAD_NUMBER">true</boolProp>
-        </com.blazemeter.jmeter.controller.ParallelSampler>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="TC01_FindLocation_02_EnterUserName_ClickNext">
+          <boolProp name="TransactionController.parent">true</boolProp>
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+        </TransactionController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/Scripts/Common-17" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/Scripts/Common-17">
             <stringProp name="HTTPSampler.domain">go.tst-phynd.com</stringProp>
             <stringProp name="HTTPSampler.port">443</stringProp>
             <stringProp name="HTTPSampler.protocol">https</stringProp>
@@ -360,7 +356,7 @@ log.info(&quot;script attempting to login with: &quot; + vars.get(&quot;prm_gene
             </HeaderManager>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/Account/Login-47" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/Account/Login-47">
             <stringProp name="HTTPSampler.domain">go.tst-phynd.com</stringProp>
             <stringProp name="HTTPSampler.port">443</stringProp>
             <stringProp name="HTTPSampler.protocol">https</stringProp>
@@ -438,7 +434,7 @@ log.info(&quot;script attempting to login with: &quot; + vars.get(&quot;prm_gene
             <hashTree/>
           </hashTree>
         </hashTree>
-        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Thinktime" enabled="true">
+        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Thinktime">
           <intProp name="ActionProcessor.action">1</intProp>
           <intProp name="ActionProcessor.target">0</intProp>
           <stringProp name="ActionProcessor.duration">${thinktime}</stringProp>
@@ -1407,19 +1403,18 @@ log.info(&quot;script attempting to login with: &quot; + vars.get(&quot;prm_gene
             </hashTree>
           </hashTree>
         </hashTree>
-        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Thinktime" enabled="true">
+        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Thinktime">
           <intProp name="ActionProcessor.action">1</intProp>
           <intProp name="ActionProcessor.target">0</intProp>
           <stringProp name="ActionProcessor.duration">${thinktime}</stringProp>
         </TestAction>
         <hashTree/>
-        <com.blazemeter.jmeter.controller.ParallelSampler guiclass="com.blazemeter.jmeter.controller.ParallelControllerGui" testclass="com.blazemeter.jmeter.controller.ParallelSampler" testname="TC01_FindLocation_04_Logout">
-          <intProp name="MAX_THREAD_NUMBER">6</intProp>
-          <boolProp name="PARENT_SAMPLE">true</boolProp>
-          <boolProp name="LIMIT_MAX_THREAD_NUMBER">true</boolProp>
-        </com.blazemeter.jmeter.controller.ParallelSampler>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="TC01_FindLocation_04_Logout">
+          <boolProp name="TransactionController.parent">true</boolProp>
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+        </TransactionController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/Account/LogoutByUrl-296" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/Account/LogoutByUrl-296">
             <stringProp name="TestPlan.comments">Detected the start of a redirect chain</stringProp>
             <stringProp name="HTTPSampler.domain">go.tst-phynd.com</stringProp>
             <stringProp name="HTTPSampler.port">443</stringProp>
@@ -1508,7 +1503,7 @@ log.info(&quot;script attempting to login with: &quot; + vars.get(&quot;prm_gene
             </HeaderManager>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/Account/Login-297" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/Account/Login-297">
             <stringProp name="HTTPSampler.domain">go.tst-phynd.com</stringProp>
             <stringProp name="HTTPSampler.port">443</stringProp>
             <stringProp name="HTTPSampler.protocol">https</stringProp>
@@ -1620,7 +1615,7 @@ log.info(&quot;script attempting to login with: &quot; + vars.get(&quot;prm_gene
         <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
-      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="true">
+      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
