@@ -23,10 +23,13 @@ jobs:
         wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.tgz
         tar -xvzf apache-jmeter-5.6.3.tgz
         sudo mv apache-jmeter-5.6.3 /opt/jmeter
-        echo "JMeter, msmtp, and mutt installed!"
+        echo "JMeter installed!"
+        
     - name: Run JMeter Load Test
       run: |
+        # Create the jmeter-results folder
         mkdir -p ./jmeter-results
+        # Run the JMeter test and save the result.jtl and report inside jmeter-results
         /opt/jmeter/bin/jmeter -n -t sDir_TestScript_Git.jmx -l ./jmeter-results/result.jtl -e -o ./jmeter-results/report
         echo "JMeter test completed!"
 
@@ -34,8 +37,8 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: jmeter-report
-        path: jmeter-results/report
+        path: ./jmeter-results/report
 
     - name: View JMeter Test Results
       run: |
-        cat jmeter-results/result.jtl
+        cat ./jmeter-results/result.jtl
