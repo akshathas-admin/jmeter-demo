@@ -39,6 +39,12 @@ jobs:
         name: jmeter-report
         path: ./jmeter-results/report
 
+    - name: Upload JMeter Results (JTL)
+      uses: actions/upload-artifact@v4
+      with:
+        name: jmeter-result
+        path: ./jmeter-results/result.jtl
+
     - name: View JMeter Test Results
       run: |
         cat ./jmeter-results/result.jtl
