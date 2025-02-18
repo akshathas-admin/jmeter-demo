@@ -20,6 +20,7 @@ jobs:
           Invoke-WebRequest -Uri "https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.6.3.zip" -OutFile "apache-jmeter-5.6.3.zip"
           Expand-Archive -Path "apache-jmeter-5.6.3.zip" -DestinationPath "C:/"
           $env:PATH += ";C:/apache-jmeter-5.6.3/bin"
+          Write-Host "Updated PATH: $env:PATH"
 
       # Step 3: Install BZM Parallel Controller Plugin (if necessary)
       - name: Install BZM Parallel Controller plugin
