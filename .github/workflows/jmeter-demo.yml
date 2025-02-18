@@ -17,16 +17,17 @@ jobs:
       # Step 2: Install JMeter on Windows
       - name: Set up JMeter
         run: |
-          Invoke-WebRequest -Uri "https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.4.1.zip" -OutFile "apache-jmeter-5.4.1.zip"
-          Expand-Archive -Path "apache-jmeter-5.4.1.zip" -DestinationPath "C:/"
-          $env:PATH += ";C:/apache-jmeter-5.4.1/bin"
+          Invoke-WebRequest -Uri "https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.6.3.zip" -OutFile "apache-jmeter-5.6.3.zip"
+          Expand-Archive -Path "apache-jmeter-5.6.3.zip" -DestinationPath "C:/"
+          $env:PATH += ";C:/apache-jmeter-5.6.3/bin"
 
       # Step 3: Install BZM Parallel Controller Plugin (if necessary)
       - name: Install BZM Parallel Controller plugin
         run: |
-          $pluginUrl = "https://github.com/Blazemeter/parallel-controller/releases/download/1.0/bzm-parallel-controller-1.0.jar"
-          $pluginPath = "C:/apache-jmeter-5.4.1/lib/ext/bzm-parallel-controller-1.0.jar"
-          Invoke-WebRequest -Uri $pluginUrl -OutFile $pluginPath
+          $pluginUrl = "https://jmeter-plugins.org/files/packages/bzm-parallel-0.12.zip"
+          $pluginZip = "bzm-parallel-0.12.zip"
+          $pluginPath = "C:/apache-jmeter-5.6.3/lib/ext"
+          Invoke-WebRequest -Uri $pluginUrl -OutFile $pluginZip
 
       # Step 4: Run the JMeter test plan using BZM Parallel Controller
       - name: Run JMeter test with BZM Parallel Controller
